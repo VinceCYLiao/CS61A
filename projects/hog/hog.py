@@ -341,6 +341,15 @@ def make_averaged(original_function, trials_count=1000):
     3.0
     """
     # BEGIN PROBLEM 8
+    def avg(*args):
+        sum = 0;
+        times = trials_count;
+        while(times > 0):
+            outcome = original_function(*args);
+            sum = sum + outcome;
+            times = times - 1;
+        return sum / trials_count;
+    return avg
     "*** YOUR CODE HERE ***"
     # END PROBLEM 8
 
@@ -356,6 +365,18 @@ def max_scoring_num_rolls(dice=six_sided, trials_count=1000):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    max_roll = 0
+    max_out_come = 0
+    avg = make_averaged(roll_dice, trials_count);
+    for i in range(10):
+        roll = i + 1
+        outcome = avg(roll, dice);
+        if outcome > max_out_come:
+            max_out_come = outcome;
+            max_roll = roll;
+    
+    return max_roll;
+
     # END PROBLEM 9
 
 
@@ -404,7 +425,11 @@ def piggypoints_strategy(score, opponent_score, cutoff=8, num_rolls=6):
     rolls NUM_ROLLS otherwise.
     """
     # BEGIN PROBLEM 10
-    return 6  # Replace this statement
+    _piggy_points = piggy_points(opponent_score);
+    if _piggy_points >= cutoff:
+        return 0;
+    else:
+        return num_rolls;
     # END PROBLEM 10
 
 
@@ -414,7 +439,11 @@ def extra_turn_strategy(score, opponent_score, cutoff=8, num_rolls=6):
     Otherwise, it rolls NUM_ROLLS.
     """
     # BEGIN PROBLEM 11
-    return 6  # Replace this statement
+    _piggy_points = piggy_points(opponent_score);
+    if extra_turn(score + _piggy_points, opponent_score):
+        return 0;
+    else:
+        return piggypoints_strategy(score, opponent_score, cutoff, num_rolls);    
     # END PROBLEM 11
 
 
